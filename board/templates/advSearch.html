@@ -65,16 +65,41 @@
                             <div class="col-lg-2 bg-warning">отклики:</div>
                             <div class="col-lg-12">
                                 {% for reply in ad.replies %}
-                                    <div class="bg-black bg-opacity-10 m-sm-2">
-                                        <div class="m-sm-2">
-                                            {{ reply.text }}
-                                        </div>
+                                    {% if reply.accepted < 0 %}
+                                        <div class="bg-danger bg-opacity-25 m-sm-2">
+                                            <div class="m-sm-2">
+                                                <p>Пользователь: {{ reply.user.username }}</p>
+                                                {{ reply.text }}
+                                            </div>
 
-                                        <div class="container pb-2 d-flex justify-content-end">
-                                            <a class="btn btn-success mx-2 opacity-75" href="">принять</a>
-                                            <a class="btn btn-danger opacity-75" href="">отклонить</a>
+                                            <div class="container pb-2 d-flex justify-content-end">
+                                                <a class="btn btn-success mx-2 opacity-75" href="/{{ reply.pk }}/reply_accept/">принять</a>
+                                            </div>
                                         </div>
-                                    </div>
+                                    {% elif reply.accepted > 0 %}
+                                        <div class="bg-success bg-opacity-25 m-sm-2">
+                                            <div class="m-sm-2">
+                                                <p>Пользователь: {{ reply.user.username }}</p>
+                                                {{ reply.text }}
+                                            </div>
+
+                                            <div class="container pb-2 d-flex justify-content-end">
+                                                <a class="btn btn-danger opacity-75" href="/{{ reply.pk }}/reply_deny/">отклонить</a>
+                                            </div>
+                                        </div>
+                                    {% else %}
+                                        <div class="bg-black bg-opacity-10 m-sm-2">
+                                            <div class="m-sm-2">
+                                                <p>Пользователь: {{ reply.user.username }}</p>
+                                                {{ reply.text }}
+                                            </div>
+
+                                            <div class="container pb-2 d-flex justify-content-end">
+                                                <a class="btn btn-success mx-2 opacity-75" href="/{{ reply.pk }}/reply_accept/">принять</a>
+                                                <a class="btn btn-danger opacity-75" href="/{{ reply.pk }}/reply_deny/">отклонить</a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
                                 {% endfor %}
                             </div>
                         </div>

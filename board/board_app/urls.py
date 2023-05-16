@@ -1,7 +1,8 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView, LogoutView
 
-from .views import AdvList, AdvDetail, RegistrationView, confirm_emal, AdvCreate, AdvUpdate, AdvDelete, delete_file, UserAdvReplys
+from .views import AdvList, AdvDetail, RegistrationView, confirm_emal, AdvCreate, AdvUpdate, AdvDelete, delete_file, \
+    UserAdvReplys, reply_accept, reply_deny
 
 
 urlpatterns = [
@@ -16,4 +17,6 @@ urlpatterns = [
     path('<int:pk>/delete/', AdvDelete.as_view()),
     path('<int:pk>/delete_file/', delete_file, name='delete_file'),
     path('advSearch/', UserAdvReplys.as_view()),
+    path('<int:pk>/reply_accept/', reply_accept, name='reply_accept'),
+    path('<int:pk>/reply_deny/', reply_deny, name='reply_deny'),
 ]

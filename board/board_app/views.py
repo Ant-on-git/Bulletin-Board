@@ -242,3 +242,17 @@ def delete_file(request, pk):
     file = get_object_or_404(AdFiles, pk=pk)
     file.delete()
     return redirect(request.environ['HTTP_REFERER'])
+
+
+def reply_accept(request, pk):
+    reply = get_object_or_404(Reply, pk=pk)
+    reply.accepted = 1
+    reply.save()
+    return redirect(request.environ['HTTP_REFERER'])
+
+
+def reply_deny(request, pk):
+    reply = get_object_or_404(Reply, pk=pk)
+    reply.accepted = -1
+    reply.save()
+    return redirect(request.environ['HTTP_REFERER'])

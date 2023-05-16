@@ -1,7 +1,7 @@
 import os
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MaxValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from django.conf import settings
 
@@ -53,6 +53,7 @@ class Reply(models.Model):
     user = models.ForeignKey('Profile', on_delete=models.CASCADE)
     ad = models.ForeignKey(Advertisement, on_delete=models.CASCADE)
     text = models.TextField()
+    accepted = models.IntegerField(default=0, validators=[MaxValueValidator(1), MinValueValidator(-1)])
 
     def __str__(self):
         return f'{self.text[:50]}'
