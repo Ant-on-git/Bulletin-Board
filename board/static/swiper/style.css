@@ -1,0 +1,97 @@
+img {
+    vertical-align: top;
+}
+
+.wrapper-swiper {
+    padding: 10px;
+}
+
+
+.title {
+    font-size: 30px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0px 0px 30px 0px;
+}
+
+.image-slider {
+    padding: 0.5rem 0 0.5rem 0;
+}
+
+/* .image-slider__wraper {
+}
+
+.image-slider__slide {
+} */
+
+.image-slider__image {
+    text-align: center;
+}
+
+.image-slider__image img {
+    max-width: 100%;
+}
+
+.swiper-button-prev::after, .swiper-button-next::after {
+    color: rgb(28, 4, 114);
+    font-size: 35px;
+    font-weight: 800;
+}
+
+/* пагинация ------------------------------------------------------------------------------------------------------
+можно, конечено указать только класс, но тогда в некоторых пунктах изначальные стили SWIPER затирают описанные здесь
+так, например, было во фракции */
+.image-slider .swiper-pagination {
+    bottom: 4%;
+}
+
+/* буллеты */
+.image-slider .swiper-pagination-bullet {
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+    background-color: rgb(219, 219, 218);
+}
+
+/* Фракция (если установлено в js вместо буллетов) */
+.image-slider .swiper-pagination-fraction {
+    font-size: 14px;
+    color: rgb(255, 204, 0);
+}
+
+/* прогрессбар (если установлено в js вместо буллетов) */
+.image-slider .swiper-pagination-progressbar-fill {
+    background: rgb(255, 204, 0);
+}
+/* --------------------------------------------------------------------------------------------------------------- */
+
+/* Скроллбар и Полоска выбранного изображения (изменение позиции не понадобилось)*/
+/* .image-slider .swiper-scrollbar, .image-slider .swiper-scrollbar-drag{
+    bottom: 0;
+} */
+/* Полоска выбранного изображения в скроллбаре */
+.swiper-scrollbar-drag {
+    cursor: pointer;
+    background: rgb(255, 204, 0);
+}
+
+
+/* мультирядность */
+ /* .image-slider {
+    height: 900px;
+}
+.image-slider .image-slider__slide {
+    height: 40%;
+    width: auto;
+    overflow: hidden;
+} */
+
+
+/* Вертикальный слайдер */
+/* .image-slider {
+    padding: 0;
+    height: 700px;
+} */
+
+

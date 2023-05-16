@@ -1,0 +1,96 @@
+{% extends 'default.html' %}
+{% load static %}
+
+{% block title %}
+  {{ adv.title  }}
+{% endblock title %}
+
+{% block styles %}
+        <!-- подключаем стили для SWIPER'а: -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
+        <link rel="stylesheet" href="{% static 'swiper/style.css' %}">
+{% endblock styles %}
+
+{% block page_preview %}
+  <div class="text-center my-4">
+      <h1 class="display-6 fw-bold text-white mb-2">
+          {{ adv.title }}
+      </h1>
+  </div>
+{% endblock page_preview %}
+
+
+{% block default_content %}
+
+<div class="my-3">
+
+    
+    {% if files %}
+        <div class="wrapper-swiper">
+            <div class="image-slider swiper">
+                <div class="image-slider__wraper swiper-wrapper">
+                    {% for file in files %}
+                        <div class="image-slider__slide swiper-slide">
+                            <div class="image-slider__image">
+                                {% if file.photo %}
+                                    <img src="{% get_media_prefix %}{{ file.file }}" alt="">
+                                {% elif file.video %}
+                                    <video src="{% get_media_prefix %}{{ file.file }}" width="100%" controls></video>
+                                {% else %}
+                                    <p>Формат файла не поддерживается</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- кнопки навигации -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </div>
+    {% endif %}
+
+
+    <section class="mb-5">
+        <div class="card bg-black bg-opacity-10">
+            <div class="card-body">
+                <div class="my-sm-2">
+                    <div class="d-flex mb-1">
+                        <div class="ms-3">{{ adv.text }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="col-lg-12 mx-sm-auto">
+        <div class="card mb-4">
+                <form method="post" class="card-body">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        {% if field.name == 'text' %}
+                            <div class="mb-4">
+                                {{ field.label_tag }}{{ field }}
+                            </div>
+                        {% else %}
+                            {{ field.as_hidden }}
+                        {% endif %}
+                    {% endfor %}
+                    <div class="d-md-flex">
+                        <input class="btn btn-primary mx-sm-auto px-md-5" type="submit" value="откликнуться">
+                    </div>
+                </form>
+        </div>
+    </div>
+
+
+</div>
+
+
+<!-- подключаем js SWIPER'а:-->
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+<!-- подключаем собственные js: -->
+<script src="{% static 'swiper/normalize images.js' %}"></script>
+<script src="{% static 'swiper/script.js' %}"></script>
+{% endblock default_content %}

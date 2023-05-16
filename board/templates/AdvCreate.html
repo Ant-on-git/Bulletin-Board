@@ -1,0 +1,53 @@
+{% extends 'default.html' %}
+{% load static %}
+
+
+{% block title %}
+  {{ adv.title  }}
+{% endblock title %}
+
+
+{% block page_preview %}
+  <div class="text-center my-4">
+      <h1 class="display-6 fw-bold text-white mb-2">
+          {{ adv.title }}
+      </h1>
+  </div>
+{% endblock page_preview %}
+
+
+{% block default_content %}
+
+<div class="col-lg-12 mx-sm-auto my-3">
+    <div class="card mb-4">
+            <form method="post" class="card-body" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in  form%}
+                    {% if field.name == 'user' %}
+                        {{ field.as_hidden }}
+                    {% else %}
+                        <div class="mb-4">
+                            {{ field.label_tag }}{{ field }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                {{ formset.management_form }}
+                {% for form in formset %}
+                    {% for field in form %}
+                        {% if field.name == 'file' %}
+                            {{ field }}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                    
+                <div class="d-md-flex">
+                    <input class="btn btn-primary mx-sm-auto px-md-5" type="submit" value="создать">
+                </div>
+            </form>
+    </div>
+</div>
+
+
+
+{% endblock default_content %}

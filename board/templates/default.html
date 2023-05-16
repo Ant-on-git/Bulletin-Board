@@ -1,0 +1,102 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>{% block title %}{% endblock title %}</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="{% static 'BootstrapPostList/assets/favicon.ico' %}" />
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+
+        <link href="{% static 'BootstrapPostList/css/styles.css' %}" rel="stylesheet" />
+        {% block styles %}{% endblock styles %}
+        <link href="{% static 'BootstrapPostList/css/myStyles.css' %}" rel="stylesheet"/>
+    </head>
+    <body>
+        <div class="wrapper">
+            <!-- Responsive navbar-->
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div class="container px-5">
+                        <a class="navbar-brand" href="#!">B-Board</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                                <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">все объявления</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/search">поиск</a></li>
+                                <li class="nav-item"><a class="nav-link" href="/admin/">admin</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            <!-- Header-->
+            <header class="bg-dark py-1">
+                <div class="container px-5">
+                    <div class="row gx-5 justify-content-center">
+                        <div class="col-lg-3"></div>
+                        <div class="col-lg-6">
+                            {% block page_preview %}{% endblock page_preview %}
+                        </div>
+                        <div class="col-lg-3">
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Features section-->
+            <div class="main container">
+                <div class="row">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-9">
+                        {% block default_content %}
+                        {% endblock default_content %}
+        
+                        {% block content_pagination %}
+                        {% endblock content_pagination %}
+                    </div>
+                    <div class="col-lg-2 my-3 px-0">
+                        <div class="card" style="box-sizing: content-box;">
+                            <div class="text-muted my-3 px-3 flex-right-top">
+                                {% if user_context %}
+                                    <p class="my-md-1">Пользователь:</p>
+                                    <p class="my-md-1">{{ user_context.username }}</p>
+                                    {% if not user_context.email_not_confirmed %}
+                                        <p class="my-md-1">Подтвердите адрес электронной почты</p>
+                                    {% endif %}
+
+                                    <a class="nav-link p-0 mt-1 text-opacity-75" href="/advCreate">создать объявление</a>
+                                    <a class="nav-link p-0 mt-1 text-opacity-75" href="/advSearch">мои объявления</a>
+
+                                    <div class="navbar-nav">
+                                        <a class="nav-link p-0 mt-1 text-opacity-75" href="/logout">выйти</a>
+                                    </div>
+                                {% else %}
+                                    <div class="navbar-nav">
+                                        <a class="" href="/login">войти</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer-->
+                <footer class="py-3 bg-dark">
+                    <div class="container px-5"><p class="m-0 text-center text-white">Copyright &copy; Ant-on-git 2023</p></div>
+                </footer>
+        </div>
+        <script src="{% static 'BootstrapPostList/js/MyScripts.js' %}"></script>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<!--        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>-->
+    </body>
+</html>

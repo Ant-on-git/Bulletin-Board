@@ -1,0 +1,41 @@
+{% extends 'default.html' %}
+
+{% block title %}
+    B-Board - подтверждение пароля
+{% endblock title %}
+
+
+{% block page_preview %}
+  <div class="text-center my-1">-->
+      <h1 class="display-6 fw-bold text-white mb-2">
+        подтверждение пароля
+      </h1>
+      <p class="lead text-white-50 mb-4"></p>
+  </div>
+{% endblock page_preview %}
+
+
+{% block default_content %}
+<section class="py-3">
+    <div class="card">
+        <div class="py-3 px-3">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="code">Введите код из письма</label>
+                    <input type="number" name="code" id="code" min="1000" max="9999">
+                </div>
+                <div class="d-md-flex">
+                    <input class="btn btn-primary mx-sm-auto px-md-5" type="submit" name="confirm_emal" value="подтвердить">
+                </div>
+            
+                {% if confirmError %}
+                    <ul>
+                        <li>{{ confirmError }}</li>
+                    </ul>
+                {% endif %}
+            </form>
+        </div>
+    </div>  
+</section>
+{% endblock default_content %}

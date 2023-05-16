@@ -1,0 +1,51 @@
+html, body {
+  height: 100%;
+}
+
+.wrapper {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1 1 auto;
+}
+
+.rating-button {
+  filter: brightness(175%);
+  display: inline-block;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  font-size: 1em;
+  line-height: 1;
+  color: #fff;
+  text-align: center;
+  border-radius: 0.75rem;
+  border-color: rgba(250, 248, 248, 0.2);
+  box-shadow: 0.3em 0.3em 0.3em #434141;
+  margin-bottom: 1em;
+}
+
+.comment-rating {
+  filter: brightness(200%);
+}
+
+.fs-7 {
+  font-size: 0.75rem !important;
+}
+
+/* .user-info {
+  height: 100%;
+  padding-bottom: 1rem;
+} */
+
+.flex-right-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.img-edit {
+  width: 23%;
+}

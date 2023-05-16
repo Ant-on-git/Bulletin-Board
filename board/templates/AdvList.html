@@ -1,0 +1,51 @@
+{% extends 'default.html' %}
+{% load static %}
+
+{% block title %}
+    B-Board - главная
+{% endblock title %}
+
+
+{% block page_preview %}
+  <div class="text-center my-1">-->
+      <h1 class="display-6 fw-bold text-white mb-2">
+        Доска объявлений
+      </h1>
+      <p class="lead text-white-50 mb-4"></p>
+  </div>
+{% endblock page_preview %}
+
+
+{% block default_content %}
+    <section class="py-1" id="features">
+        <div class="container px-5">
+
+            {% if AdvList %}
+                {% for ad in AdvList %}
+                <a class="text-decoration-none link-dark" href="{{ ad.pk }}">
+                    <div class="card container my-3">
+                            <div class="row">
+                                <div class="col-lg-2 py-2 gx-2 my-auto">
+                                    {% if ad.title_img %}
+                                        <img class="img-fluid rounded mx-auto" src="{% get_media_prefix %}{{ ad.title_img }}" alt="{{ ad.title }} картинка">
+                                    {% else %}
+                                        <img class="img-fluid rounded mx-auto" src="{% get_media_prefix %}defaults/default.jpg" alt="нет картинки">
+                                    {% endif %}
+                                </div>
+                                <div class="col-lg-10 py-2">
+                                    <h2 class="h4 fw-bolder">{{ ad.title }}</h2>
+                                    <p>{{ ad.text }}</p>
+                                </div>
+                            </div>
+                    </div>
+                </a>
+                {% endfor %}
+            {% else %}
+                <div class="col-lg-12 mb-5">
+                    <h2 class="h4 fw-bolder text-center">Объявлений нет =(</h2>
+                </div>
+            {% endif %}
+
+        </div>
+    </section>
+{% endblock default_content %}

@@ -1,0 +1,93 @@
+{% extends 'default.html' %}
+{% load static %}
+
+{% block title %}
+    B-Board - Мои объявления
+{% endblock title %}
+
+
+{% block page_preview %}
+  <div class="text-center my-1">
+      <h1 class="display-6 fw-bold text-white mb-2">
+        Мои объявления
+      </h1>
+      <p class="lead text-white-50 mb-4"></p>
+  </div>
+{% endblock page_preview %}
+
+
+{% block default_content %}
+    <section class="py-1" id="features">
+        <div class="container px-5">
+
+            <div class="row gx-0 justify-content-center my-3">
+                <div class="card mb-4">
+                    <form method="get" class="card-body">
+                        {% csrf_token %}
+                        {% for field in filter.form %}
+                            <div class="mb-4">
+                                {{ field.label_tag }}&nbsp;&nbsp;&nbsp;{{ field }}
+                            </div>
+                        {% endfor %}
+                        <div class="d-md-flex">
+                            <input class="btn btn-primary mx-sm-auto px-md-5" type="submit" value="найти">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {% if advSearch %}
+                {% for ad in advSearch %}
+                <div class="my-3 card">
+                    <a class="text-decoration-none link-dark" href="/{{ ad.pk }}">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-2 py-2 gx-2 my-auto">
+                                    {% if ad.title_img %}
+                                        <img class="img-fluid rounded mx-auto" src="{% get_media_prefix %}{{ ad.title_img }}" alt="{{ ad.title }} картинка">
+                                    {% else %}
+                                        <img class="img-fluid rounded mx-auto" src="{% get_media_prefix %}defaults/default.jpg" alt="нет картинки">
+                                    {% endif %}
+                                </div>
+                                <div class="col-lg-10 py-2">
+                                    <h2 class="h4 fw-bolder">{{ ad.title }}</h2>
+                                    <p>{{ ad.text }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="container mb-2 d-flex justify-content-end">
+                        <a class="btn btn-info mx-2" href="/{{ ad.pk }}/edit/">редактировать</a>
+                        <a class="btn btn-danger" href="/{{ ad.pk }}/delete/">удалить</a>
+                    </div>
+                    {% if ad.replies %}
+                        <div class="row">
+                            <div class="col-lg-2 bg-warning">отклики:</div>
+                            <div class="col-lg-12">
+                                {% for reply in ad.replies %}
+                                    <div class="bg-black bg-opacity-10 m-sm-2">
+                                        <div class="m-sm-2">
+                                            {{ reply.text }}
+                                        </div>
+
+                                        <div class="container pb-2 d-flex justify-content-end">
+                                            <a class="btn btn-success mx-2 opacity-75" href="">принять</a>
+                                            <a class="btn btn-danger opacity-75" href="">отклонить</a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% endfor %}
+            {% else %}
+                <div class="col-lg-12 mb-5">
+                    <h2 class="h4 fw-bolder text-center">Объявлений нет =(</h2>
+                </div>
+            {% endif %}
+
+        </div>
+    </section>
+{% endblock default_content %}
