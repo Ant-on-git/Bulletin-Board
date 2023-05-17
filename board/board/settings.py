@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_apscheduler',
 
     'board_app.apps.BoardAppConfig',
 ]
@@ -151,3 +152,7 @@ EMAIL_HOST_USER = dotenv_data.get('rambler_EMAIL_HOST_USER')
 EMAIL_USE_SSL = True
 EMAIL_HOST_PASSWORD = dotenv_data.get('rambler_EMAIL_HOST_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@rambler.ru'
+
+
+APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
+PSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds

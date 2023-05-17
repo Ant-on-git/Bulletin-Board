@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+    <style>
+        .post {
+            margin: 1rem;
+            padding: 1rem;
+            border: 1px solid gray;
+            border-radius: 0.4rem;
+            background-color: rgba(232, 191, 9, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1>Здравствуй, {{ username }}. За прошедшую неделю было опубликовано {{ adv_list | length  }} объявлений:</h1>
+    {% for adv in adv_list %}
+        <div class="post">
+            <h2>{{ adv.title }}</h2>
+            <p>{{ adv.text }}</p>
+            <p><a href="http://127.0.0.1:8000/{{ adv.id }}">подробнее</a></p>
+        </div>
+    {% endfor %}
+</body>
+</html>

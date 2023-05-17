@@ -16,7 +16,7 @@ class AdFilesInline(admin.TabularInline):
 
 class AdvertisementAdmin(admin.ModelAdmin):
     inlines = (AdFilesInline, AdCategoryInline)
-    list_display = ('id', 'title', 'user', 'text')
+    list_display = ('id', 'date', 'title', 'user', 'text')
 
 
 class AdFilesAdmin(admin.ModelAdmin):

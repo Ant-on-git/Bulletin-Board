@@ -58,8 +58,8 @@ def new_reply_notyfication(sender, instance, created, **kwargs):
 
 @receiver(pre_save, sender=Reply)
 def reply_accepted_notyfication(sender, instance, **kwargs):
-    if instance.id is None: # new object will be created
-        pass
+    if instance.id is None:  # new object will be created
+        return
     previous_reply_version = Reply.objects.get(id=instance.id)
     if previous_reply_version.accepted < 1 and instance.accepted == 1:  # если был принят отклик
         html_email_message = render_to_string('email/reply_accepted_notyfication.html',

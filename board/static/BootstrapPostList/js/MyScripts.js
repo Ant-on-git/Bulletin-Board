@@ -2,10 +2,14 @@
 // добавляем класс в форму поиска (элемент категория) чтобы было в одну строчку
 let filter_category = document.getElementById('id_category');
 if (filter_category) {
-    filter_category.classList.add('d-sm-flex');
-    filter_category.classList.add('justify-content-sm-start');
+    filter_category.classList.add('container');
+    // filter_category.classList.add('row');
+    // filter_category.classList.add('justify-content-sm-between');
+    // filter_category.classList.add('text-nowrap');
     for (let div of filter_category.children) {
-        div.classList.add('px-sm-2')
+        div.classList.add('px-sm-2');
+        div.classList.add('img-edit');
+        div.classList.add('d-inline-block');
     }
 }
 

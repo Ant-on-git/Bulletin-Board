@@ -1,3 +1,4 @@
+import datetime
 import os
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -26,6 +27,7 @@ class Advertisement(models.Model):
     user = models.ForeignKey('Profile', on_delete=models.CASCADE)
     category = models.ManyToManyField(Category, through=AdCategory)
     text = models.TextField(default='')
+    date = models.DateField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.id}-{self.title[:30]}'
