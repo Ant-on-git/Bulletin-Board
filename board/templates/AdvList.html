@@ -19,7 +19,23 @@
 {% block default_content %}
     <section class="py-1" id="features">
         <div class="container px-5">
-
+            
+            <div class="row gx-0 justify-content-center my-3">
+                <div class="card mb-4">
+                    <form method="get" class="card-body">
+                        {% csrf_token %}
+                        {% for field in filter.form %}
+                            <div class="mb-4">
+                                {{ field.label_tag }}&nbsp;&nbsp;&nbsp;{{ field }}
+                            </div>
+                        {% endfor %}
+                        <div class="d-md-flex">
+                            <input class="btn btn-primary mx-sm-auto px-md-5" type="submit" value="найти">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
             {% if AdvList %}
                 {% for ad in AdvList %}
                 <a class="text-decoration-none link-dark" href="{{ ad.pk }}">

@@ -1,5 +1,5 @@
-from django.forms.widgets import DateInput, TextInput, CheckboxSelectMultiple
-from django_filters import FilterSet, DateFilter, CharFilter, MultipleChoiceFilter
+from django.forms.widgets import TextInput, CheckboxSelectMultiple
+from django_filters import FilterSet, CharFilter, MultipleChoiceFilter
 from .models import Advertisement, Category
 
 

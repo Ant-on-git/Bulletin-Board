@@ -2,9 +2,9 @@ from random import choice
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .filters import AdvFilter
 from .models import Advertisement, AdFiles, Profile, OneTimeCode, Reply
@@ -43,8 +43,13 @@ class AdvList(ListView):
     context_object_name = 'AdvList'
     queryset = Advertisement.objects.order_by('-id')
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return AdvFilter(self.request.GET, queryset=queryset).qs
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['filter'] = AdvFilter(self.request.GET, queryset=self.get_queryset())
         for ad in self.object_list:
             ad.title_img = get_title_href(ad)
 
@@ -53,7 +58,7 @@ class AdvList(ListView):
         return context
 
 
-class AdvDetail(DetailView):
+class AdvDetail(LoginRequiredMixin, DetailView):
     model = Advertisement
     template_name = 'AdvDetails.html'
     context_object_name = 'adv'
@@ -85,7 +90,7 @@ class AdvDetail(DetailView):
         return redirect(redirect_from)
 
 
-class AdvCreate(CreateView):
+class AdvCreate(LoginRequiredMixin, CreateView):
     template_name = 'AdvCreate.html'
     form_class = AdvForm
     model = Advertisement
@@ -118,13 +123,14 @@ class AdvCreate(CreateView):
             return self.render_to_response(self.get_context_data(form=form))
 
 
-class AdvUpdate(UpdateView):
+class AdvUpdate(LoginRequiredMixin, UpdateView):
     template_name = 'AdvEdit.html'
     form_class = AdvForm
 
     def get_object(self, **kwargs):
+        user = self.request.user
         id = self.kwargs.get('pk')
-        return Advertisement.objects.get(id=id)
+        return get_object_or_404(Advertisement, id=id, user=user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -164,6 +170,11 @@ class AdvDelete(DeleteView):
     success_url = '/'
     context_object_name = 'adv'
 
+    def get_object(self, **kwargs):
+        user = self.request.user
+        id = self.kwargs.get('pk')
+        return get_object_or_404(Advertisement, id=id, user=user)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         files = AdFiles.objects.filter(ad=kwargs['object'])
@@ -175,17 +186,15 @@ class AdvDelete(DeleteView):
         return context
 
 
-
-
-
-class UserAdvReplys(ListView):
+class UserAdvReplys(LoginRequiredMixin, ListView):
     model = Advertisement
-    template_name = 'advSearch.html'
+    template_name = 'userAdvReplys.html'
     context_object_name = 'advSearch'
-    paginate_by = 10
 
     def get_queryset(self):
+        user = self.request.user
         queryset = super().get_queryset()
+        queryset = queryset.filter(user=user).order_by('-id')
         return AdvFilter(self.request.GET, queryset=queryset).qs
 
     def get_context_data(self, **kwargs):
@@ -200,9 +209,6 @@ class UserAdvReplys(ListView):
             ad.replies = Reply.objects.filter(ad=ad)
         context['object_list'] = objects
         return context
-
-
-
 
 
 class RegistrationView(CreateView):
@@ -240,19 +246,22 @@ def confirm_emal(request):
 
 def delete_file(request, pk):
     file = get_object_or_404(AdFiles, pk=pk)
-    file.delete()
+    if file.ad.user == request.user:
+        file.delete()
     return redirect(request.environ['HTTP_REFERER'])
 
 
 def reply_accept(request, pk):
     reply = get_object_or_404(Reply, pk=pk)
-    reply.accepted = 1
-    reply.save()
+    if reply.ad.user == request.user:
+        reply.accepted = 1
+        reply.save()
     return redirect(request.environ['HTTP_REFERER'])
 
 
 def reply_deny(request, pk):
     reply = get_object_or_404(Reply, pk=pk)
-    reply.accepted = -1
-    reply.save()
+    if reply.ad.user == request.user:
+        reply.accepted = -1
+        reply.save()
     return redirect(request.environ['HTTP_REFERER'])
