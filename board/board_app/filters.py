@@ -1,6 +1,11 @@
 from django.forms.widgets import TextInput, CheckboxSelectMultiple
 from django_filters import FilterSet, CharFilter, MultipleChoiceFilter
 from .models import Advertisement, Category
+import sys
+
+def is_migrating():
+    # Проверка аргументов командной строки на наличие миграции
+    return 'makemigrations' in sys.argv or 'migrate' in sys.argv
 
 
 class AdvFilter(FilterSet):
@@ -9,10 +14,12 @@ class AdvFilter(FilterSet):
                        label='Тема объвления',
                        widget=TextInput(attrs={'class': 'form-control',
                                                'style': 'width: 100%;'}))
-    category = MultipleChoiceFilter(field_name='category__name',
-                                    label='Категория',
-                                    choices=[(category.name, category.name) for category in Category.objects.all()],
-                                    widget=CheckboxSelectMultiple())
+    if not is_migrating():
+        category = MultipleChoiceFilter(field_name='category__name',
+                                        label='Категория',
+                                        choices=[(category.name, category.name) for category in Category.objects.all()],
+                                        widget=CheckboxSelectMultiple())
+
     text = CharFilter(field_name='text',
                        lookup_expr='icontains',
                        label='Текст',
